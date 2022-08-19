@@ -86,25 +86,25 @@ pipeline {
                 }
             }
         }
-        stage('Deploy artefact to Artifactory') {
+        // stage('Deploy artefact to Artifactory') {
            
-            steps {
-                script {
-                    def server = Artifactory.server 'artifactory-instance'
-                    rtUpload (
-                        serverId: 'artifactory-instance',
-                        spec: '''{
-                            "files": [
-                                {
-                                "pattern": "**/*.war",
-                                "target": "maven-repo-local/"
-                                }
-                            ]
-                        }''',
-                    )          
-                }
-            }
-        }
+        //     steps {
+        //         script {
+        //             def server = Artifactory.server 'artifactory-instance'
+        //             rtUpload (
+        //                 serverId: 'artifactory-instance',
+        //                 spec: '''{
+        //                     "files": [
+        //                         {
+        //                         "pattern": "**/*.war",
+        //                         "target": "maven-repo-local/"
+        //                         }
+        //                     ]
+        //                 }''',
+        //             )          
+        //         }
+        //     }
+        // }
 
     }
     post {
