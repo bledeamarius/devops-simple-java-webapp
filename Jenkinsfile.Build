@@ -37,10 +37,10 @@ properties([
                     classpath: [], 
                     sandbox: false, 
                     script: 
-                        ''' if (Env.equals("Dev")){
+                        ''' if (ENVIRONMENT.equals("Dev")){
                                 return["-SNAPSHOT"]
                             }
-                            else if(Env.equals("UAT")){
+                            else if(ENVIRONMENT.equals("UAT")){
                                 return[""]
                             }
                         '''
