@@ -28,7 +28,7 @@ properties([
 pipeline {
     agent any
     tools { 
-      maven 'MAVEN_INSTANCE' 
+      maven 'maven-instance' 
     }
     parameters {
         string(name: "VERSION_SUFFIX", defaultValue:"-SNAPSHOT")
