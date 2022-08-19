@@ -38,7 +38,7 @@ properties([
                     sandbox: false, 
                     script: 
                         ''' 
-                        if (ENVIRONMENT == "DEV") { 
+                        if (ENVIRONMENT == "Dev") { 
                             return ["-SNAPSHOT"] 
                         } 
                         else if (ENVIRONMENT == "UAT") { 
