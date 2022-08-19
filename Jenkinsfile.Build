@@ -84,6 +84,8 @@ pipeline {
                 withMaven(maven: 'maven-instance', mavenSettingsConfig: 'f38447f7-d13a-4014-b5e5-6f4c7c7f5b89') {
                     sh "mvn clean deploy"
                 }
+                sh 'ls'
+            archiveArtifacts artifacts: 'target/*.war', followSymlinks: false, onlyIfSuccessful: true
             }
         }
         // stage('Deploy artefact to Artifactory') {
@@ -110,8 +112,8 @@ pipeline {
     post {
         always {
             cleanWs()
-            sh 'ls'
-            archiveArtifacts artifacts: 'target/*.war', followSymlinks: false, onlyIfSuccessful: true
+            // sh 'ls'
+            // archiveArtifacts artifacts: 'target/*.war', followSymlinks: false, onlyIfSuccessful: true
         }
  
     }
