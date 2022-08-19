@@ -1,16 +1,29 @@
-
+properties([
+  parameters([
+    [
+      $class: 'BuildSelectorParameter',
+      defaultSelector: upstream(fallbackToLastSuccessful: true),
+      name: 'ENVIRONMENT',
+      description: 'desc',
+      name: 'copyArtifactSelector']])
+ ])
+])
 
 pipeline {
     agent any
+    parameters {
+        string(name: 'IMAGE_NAME',     defaultValue: 'simple-npm-webapp', description: "Specify the image name")
+        string(name: 'CONTAINER_NAME', defaultValue: 'backend',           description: 'Specify the container name')
+        string(name: 'PORT_TO_EXPOSE', defaultValue: '4000',              description: 'Specify the port')
+    }
     environment {
         DOCKER_REGISTRY = 'maryusmm'
-        IMAGE_NAME      = 'simple-npm-webapp'
     }
 
     stages {
         stage('Build docker image') { 
             steps {
-                echo "~~~ Replace port to expose with ${PORT_TO_EXPOSE}~~~" 
+                echo "~~~ Replace port to expose with ${}~~~" 
                 sh 'sed -i "s/PORT_TO_EXPOSE/"${PORT_TO_EXPOSE}"/g" package.json' 
                 sh "docker build --build-arg PORT_TO_EXPOSE=${PORT_TO_EXPOSE} -t $DOCKER_REGISTRY/$IMAGE_NAME:$BUILD_NUMBER ."
             }
@@ -29,7 +42,7 @@ pipeline {
            
             steps {
                 
-                sh "echo 'push tot dockerhub' "
+                // sh "echo 'push tot dockerhub' "
                 sh "docker push $DOCKER_REGISTRY/$IMAGE_NAME:$BUILD_NUMBER"
             }
         }
