@@ -65,6 +65,12 @@ pipeline {
     }
 
     stages {
+        stage('Clone project repo') {
+            steps {
+                sh 'git clone https://github.com/bledeamarius/simple-java-webapp .'
+                sh 'ls'
+            }
+        }
         stage('Replace version suffix') { 
             steps {
                 echo "~~~ Replacing version suffix with ${params.VERSION_SUFFIX} ~~~ "
