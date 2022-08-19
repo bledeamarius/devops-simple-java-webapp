@@ -2,10 +2,9 @@ properties([
   parameters([
     [
       $class: 'BuildSelectorParameter',
-      defaultSelector: upstream(fallbackToLastSuccessful: true),
-      name: 'ENVIRONMENT',
-      description: 'desc',
-      name: 'copyArtifactSelector']])
+      defaultSelector: 'specific-build',
+      description: 'Description',
+      name: 'BUILD_SELECTOR']])
 ])
 
 pipeline {
@@ -17,34 +16,48 @@ pipeline {
     }
     environment {
         DOCKER_REGISTRY = 'maryusmm'
+        PROJECT_TO_COPY_FROM = 'pip-backend-build-v2'
     }
 
     stages {
+        
+        stage('Copy artefact') {
+            steps {
+                copyArtifacts excludes: '*.jar', filter: '*.war', fingerprintArtifacts: true, projectName: ${PROJECT_TO_COPY_FROM}, selector: specific('23'), target: './'
+            }
+        }
+
         stage('Build docker image') { 
             steps {
-                echo "~~~ Replace port to expose with ${}~~~" 
-                sh 'sed -i "s/PORT_TO_EXPOSE/"${PORT_TO_EXPOSE}"/g" package.json' 
-                sh "docker build --build-arg PORT_TO_EXPOSE=${PORT_TO_EXPOSE} -t $DOCKER_REGISTRY/$IMAGE_NAME:$BUILD_NUMBER ."
+               
+                sh "docker build -t $DOCKER_REGISTRY/$IMAGE_NAME:$BUILD_NUMBER ."
             }
         }
 
-        stage('Login to DockerHub') {            
-            environment {
-                DOCKERHUB_CREDENTIALS = credentials('my-docker-hub-credentials')
-            }
-
-            steps{
-                sh "docker login -u=${DOCKERHUB_CREDENTIALS_USR} -p=${DOCKERHUB_CREDENTIALS_PSW}"
-            }
-        }
-        stage('Push to Docker Hub') {
-           
+                stage('Run docker image') { 
             steps {
-                
-                // sh "echo 'push tot dockerhub' "
-                sh "docker push $DOCKER_REGISTRY/$IMAGE_NAME:$BUILD_NUMBER"
+               
+                sh "docker run -d -p $PORT_TO_EXPOSE:8080 --name $CONTAINER_NAME $DOCKER_REGISTRY/$IMAGE_NAME:$BUILD_NUMBER ."
             }
         }
+
+        // stage('Login to DockerHub') {            
+        //     environment {
+        //         DOCKERHUB_CREDENTIALS = credentials('my-docker-hub-credentials')
+        //     }
+
+        //     steps{
+        //         sh "docker login -u=${DOCKERHUB_CREDENTIALS_USR} -p=${DOCKERHUB_CREDENTIALS_PSW}"
+        //     }
+        // }
+        // stage('Push to Docker Hub') {
+           
+        //     steps {
+                
+        //         // sh "echo 'push tot dockerhub' "
+        //         sh "docker push $DOCKER_REGISTRY/$IMAGE_NAME:$BUILD_NUMBER"
+        //     }
+        // }
 
 
     }
