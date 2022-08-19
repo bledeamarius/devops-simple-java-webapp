@@ -56,9 +56,9 @@ pipeline {
     tools { 
       maven 'maven-instance' 
     }
-    // parameters {
-    //     string(name: "VERSION_SUFFIX", defaultValue:"-SNAPSHOT")
-    // }
+    parameters {
+        string(name: "PROJECT_REPO_NAME", defaultValue:"simple-java-webapp")
+    }
     environment {
         DOCKER_REGISTRY = 'maryusmm'
         IMAGE_NAME      = 'simple-npm-webapp'
@@ -67,7 +67,8 @@ pipeline {
     stages {
         stage('Clone project repo') {
             steps {
-                sh 'git clone https://github.com/bledeamarius/simple-java-webapp .'
+                sh 'git clone https://github.com/bledeamarius/"${params.PROJECT_REPO_NAME}"'
+                sh 'mv /"{params.PROJECT_REPO_NAME} .. '
                 sh 'ls'
             }
         }
