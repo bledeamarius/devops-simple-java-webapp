@@ -110,6 +110,7 @@ pipeline {
     post {
         always {
             cleanWs()
+            sh 'ls'
             archiveArtifacts artifacts: 'target/*.war', followSymlinks: false, onlyIfSuccessful: true
         }
  
