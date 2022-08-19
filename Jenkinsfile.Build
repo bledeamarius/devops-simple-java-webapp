@@ -110,10 +110,8 @@ pipeline {
     post {
         always {
             cleanWs()
+            archiveArtifacts artifacts: 'target/*.war', followSymlinks: false, onlyIfSuccessful: true
         }
-        always {
-            archiveArtifacts artifacts: 'target/*.war'
-            onlyIfSuccessful: true
-        }
+ 
     }
 }
