@@ -70,7 +70,7 @@ pipeline {
             steps {
                 sh 'git clone https://github.com/bledeamarius/"${PROJECT_REPO_NAME}"'
                 sh 'ls'
-                sh 'mv "${PROJECT_REPO_NAME}/*" . '
+                sh 'mv "${PROJECT_REPO_NAME}"/* . '
                 sh 'ls'
             }
         }
