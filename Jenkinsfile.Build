@@ -1,0 +1,76 @@
+properties([
+  parameters([
+    [
+      $class: 'ChoiceParameter',
+      choiceType: 'PT_SINGLE_SELECT',
+      name: 'Environment',
+      script: [
+        $class: 'ScriptlerScript',
+        scriptlerScriptId:'Environments.groovy'
+      ]
+    ],
+    [
+      $class: 'CascadeChoiceParameter',
+      choiceType: 'PT_SINGLE_SELECT',
+      name: 'Host',
+      referencedParameters: 'Environment',
+      script: [
+        $class: 'ScriptlerScript',
+        scriptlerScriptId:'HostsInEnv.groovy',
+        parameters: [
+          [name:'Environment', value: '$Environment']
+        ]
+      ]
+   ]
+ ])
+])
+
+pipeline {
+    agent any
+    tools { 
+      maven 'MAVEN_INSTANCE' 
+    }
+    parameters {
+        string(name: "VERSION_SUFFIX", defaultValue:"-SNAPSHOT")
+    }
+    environment {
+        DOCKER_REGISTRY = 'maryusmm'
+        IMAGE_NAME      = 'simple-npm-webapp'
+    }
+
+    stages {
+        stage('Replace version suffix') { 
+            steps {
+                echo "~~~ Replacing version suffix with ${params.VERSION_SUFFIX} ~~~ "
+                sh 'sed -i "s/VERSION_SUFFIX/"${params.VERSION_SUFFIX}"/g" pom.xml' 
+            }
+        }
+
+        stage('Execute maven goals - clean, deploy') {            
+            steps{
+                sh "mvn clean deploy"
+            }
+        }
+        stage('Deploy artefact to Artifactory') {
+           
+            steps {
+                script {
+                    def server = Artifactory.server 'artifactory-instance'
+                    rtUpload (
+                        serverId: 'artifactory-instance',
+                        spec: '''{
+                            "files": [
+                                {
+                                "pattern": "**/*.war",
+                                "target": "maven-repo-local/"
+                                }
+                            ]
+                        }''',
+                    )          
+                }
+            }
+        }
+
+
+    }
+}
