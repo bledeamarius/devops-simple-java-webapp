@@ -6,7 +6,6 @@ properties([
       name: 'ENVIRONMENT',
       description: 'desc',
       name: 'copyArtifactSelector']])
- ])
 ])
 
 pipeline {
