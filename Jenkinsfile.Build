@@ -111,5 +111,9 @@ pipeline {
         always {
             cleanWs()
         }
+        always {
+            archiveArtifacts artifacts: 'target/*.war'
+            onlyIfSuccessful: true
+        }
     }
 }
