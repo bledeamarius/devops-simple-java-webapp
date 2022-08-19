@@ -81,7 +81,7 @@ pipeline {
 
         stage('Execute maven goals - clean, deploy') {            
             steps{
-                withMaven(maven: 'maven-instance', mavenSettingsConfig: 'Maven-Settings-For-Artifactory') {
+                withMaven(maven: 'maven-instance', mavenSettingsConfig: 'f38447f7-d13a-4014-b5e5-6f4c7c7f5b89') {
                     sh "mvn clean deploy"
                 }
             }
