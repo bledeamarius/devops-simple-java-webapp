@@ -77,7 +77,7 @@ pipeline {
         stage('Replace version suffix') { 
             steps {
                 echo "~~~ Replacing version suffix with ${params.VERSION_SUFFIX} ~~~ "
-                sh 'sed -i s/VERSION_SUFFIX/"${params.VERSION_SUFFIX}"/g pom.xml' 
+                sh "sed -i s/VERSION_SUFFIX/${params.VERSION_SUFFIX}/g pom.xml"
             }
         }
 
