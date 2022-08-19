@@ -43,7 +43,9 @@ properties([
                         } 
                         else if (ENVIRONMENT == "UAT") { 
                             return [""] 
-                        } 
+                        }else {
+                            return ["ORICE]
+                        }
                         '''
                 ]
       ]
