@@ -50,8 +50,9 @@ pipeline {
 
                 stage('Run docker image') { 
             steps {
-               
-                sh "docker run -d -p $PORT_TO_EXPOSE:8080 --name $CONTAINER_NAME $DOCKER_REGISTRY/$IMAGE_NAME:$BUILD_NUMBER ."
+                echo "Kill docker container if it's already running"
+                sh "docker container stop $CONTAINER_NAME || true && docker container rm $CONTAINER_NAME || true"
+                sh "docker run -d -p $PORT_TO_EXPOSE:8080 --name $CONTAINER_NAME $DOCKER_REGISTRY/$IMAGE_NAME:$BUILD_NUMBER"
             }
         }
 
