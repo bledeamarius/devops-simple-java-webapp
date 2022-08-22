@@ -2,7 +2,7 @@ properties([parameters([
     [$class: 'BuildSelectorParameter',
     defaultSelector: upstream(fallbackToLastSuccessful: true),
     description: '',
-    name: 'copyArtifactSelector']])
+    name: 'BUILD_SELECTOR']])
 ])
 // properties([
 //     parameters([
