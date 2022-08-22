@@ -1,21 +1,20 @@
-
-//   parameters([
-//     [
-//       $class: 'BuildSelectorParameter',
-//       defaultSelector: 'specific-build',
-//       description: 'Description',
-//       name: 'BUILD_SELECTOR']])
-properties([
-    parameters([
-        string(defaultValue: '21', name: 'SPECIFIC_BUILD')]),
-        //buildSelector(defaultSelector: lastSuccessful(), name: 'BUILD_SELECTOR')
-        [
-            $class: 'BuildSelectorParameter',
-            defaultSelector: lastSuccessful(),
-            description: 'Description',
-            name: 'BUILD_SELECTOR']
-        
+properties([parameters([
+    [$class: 'BuildSelectorParameter',
+    defaultSelector: upstream(fallbackToLastSuccessful: true),
+    description: '',
+    name: 'copyArtifactSelector']])
 ])
+// properties([
+//     parameters([
+//         string(defaultValue: '21', name: 'SPECIFIC_BUILD')]),
+//         //buildSelector(defaultSelector: lastSuccessful(), name: 'BUILD_SELECTOR')
+//         [
+//             $class: 'BuildSelectorParameter',
+//             defaultSelector: lastSuccessful(),
+//             description: 'Description',
+//             name: 'BUILD_SELECTOR']
+        
+// ])
 
 pipeline {
     agent any
