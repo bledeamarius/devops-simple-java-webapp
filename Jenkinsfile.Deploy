@@ -1,10 +1,15 @@
 properties([
-  parameters([
-    [
-      $class: 'BuildSelectorParameter',
-      defaultSelector: 'specific-build',
-      description: 'Description',
-      name: 'BUILD_SELECTOR']])
+//   parameters([
+//     [
+//       $class: 'BuildSelectorParameter',
+//       defaultSelector: 'specific-build',
+//       description: 'Description',
+//       name: 'BUILD_SELECTOR']])
+properties([
+    parameters([
+        string(defaultValue: '23', name: 'SPECIFIC_BUILD')])]),
+        buildSelector(defaultSelector: specific('${SPECIFIC_BUILD}'), name: 'BUILD_SELECTOR')
+        
 ])
 
 pipeline {
