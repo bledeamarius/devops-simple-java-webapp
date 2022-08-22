@@ -32,7 +32,7 @@ pipeline {
         
         stage('Copy artefact') {
             steps {
-                copyArtifacts excludes: '*.jar', filter: '*.war', fingerprintArtifacts: true, projectName: "${PROJECT_TO_COPY_FROM}", selector: buildParameter('BUILD_SELECTOR'), target: './'
+                copyArtifacts excludes: '*.jar', filter: 'target/*.war', fingerprintArtifacts: true, projectName: "${PROJECT_TO_COPY_FROM}", selector: buildParameter('BUILD_SELECTOR'), target: './'
             }
         }
 
