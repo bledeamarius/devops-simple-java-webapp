@@ -1,4 +1,4 @@
-properties([
+
 //   parameters([
 //     [
 //       $class: 'BuildSelectorParameter',
@@ -7,7 +7,7 @@ properties([
 //       name: 'BUILD_SELECTOR']])
 properties([
     parameters([
-        string(defaultValue: '23', name: 'SPECIFIC_BUILD')])]),
+        string(defaultValue: '23', name: 'SPECIFIC_BUILD')]),
         buildSelector(defaultSelector: specific('${SPECIFIC_BUILD}'), name: 'BUILD_SELECTOR')
         
 ])
