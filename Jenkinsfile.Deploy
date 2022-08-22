@@ -36,6 +36,11 @@ pipeline {
             }
         }
 
+        stage('Debug step') {
+            steps {
+               sh 'ls'
+            }
+        }
         stage('Build docker image') { 
             steps {
                
