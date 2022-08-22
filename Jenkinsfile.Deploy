@@ -8,12 +8,12 @@
 properties([
     parameters([
         string(defaultValue: '21', name: 'SPECIFIC_BUILD')]),
-        buildSelector(defaultSelector: lastSuccessful(), name: 'BUILD_SELECTOR')
-        // [
-        //     $class: 'BuildSelectorParameter',
-        //     defaultSelector: specific('${SPECIFIC_BUILD}'),
-        //     description: 'Description',
-        //     name: 'BUILD_SELECTOR']
+        //buildSelector(defaultSelector: lastSuccessful(), name: 'BUILD_SELECTOR')
+        [
+            $class: 'BuildSelectorParameter',
+            defaultSelector: lastSuccessful(),
+            description: 'Description',
+            name: 'BUILD_SELECTOR']
         
 ])
 
