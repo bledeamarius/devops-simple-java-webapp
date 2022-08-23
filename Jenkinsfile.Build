@@ -87,8 +87,8 @@ pipeline {
         }
 
         stage('Archive locally') {
-            stage {
-                sh 'ls'
+            steps {
+                
                 archiveArtifacts artifacts: 'target/*.war', followSymlinks: false, onlyIfSuccessful: true
             }
         }
