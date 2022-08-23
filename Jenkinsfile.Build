@@ -52,7 +52,9 @@ properties([
 ])
 
 pipeline {
-    agent any
+    agent {
+        label 'Jenkins-agent-1'
+    }
     tools { 
       maven 'maven-instance' 
     }
