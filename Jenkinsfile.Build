@@ -1,5 +1,5 @@
 properties([
- copyArtifactPermission('*')
+ copyArtifactPermission('*'),
   parameters([
     [
       $class: 'ChoiceParameter',
